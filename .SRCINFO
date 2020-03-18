@@ -1,7 +1,7 @@
 pkgbase = ros-melodic-rosserial-python
 	pkgdesc = ROS - A Python-based implementation of the rosserial protocol.
 	pkgver = 0.8.0
-	pkgrel = 1
+	pkgrel = 2
 	url = https://wiki.ros.org/rosserial_python
 	arch = any
 	license = BSD
@@ -13,7 +13,11 @@ pkgbase = ros-melodic-rosserial-python
 	depends = ros-melodic-rosserial-msgs
 	depends = ros-melodic-diagnostic-msgs
 	source = ros-melodic-rosserial-python-0.8.0.tar.gz::https://github.com/ros-drivers/rosserial/archive/0.8.0.tar.gz
+	source = fix-reconnection.patch::https://patch-diff.githubusercontent.com/raw/ros-drivers/rosserial/pull/445.patch
+	source = fix-python3.patch::https://patch-diff.githubusercontent.com/raw/ros-drivers/rosserial/pull/469.patch
 	sha256sums = e96cdeb81e1c03fb1c5ad85a740cb0a1a0836c52a24c6a5d97c975084b49d576
+	sha256sums = 810c044f7ef6aae65ed624d92fbd27313c2a8ef21c6739202721b5893129622c
+	sha256sums = e91769fba0c6037362ae0d52717b76ecf26b593c27ee06ad005499b64288738f
 
 pkgname = ros-melodic-rosserial-python
 

@@ -4,7 +4,7 @@ url='https://wiki.ros.org/rosserial_python'
 pkgname='ros-melodic-rosserial-python'
 pkgver='0.8.0'
 arch=('any')
-pkgrel=1
+pkgrel=2
 license=('BSD')
 
 ros_makedepends=(
@@ -29,8 +29,18 @@ depends=(
 )
 
 _dir="rosserial-${pkgver}/rosserial_python"
-source=("${pkgname}-${pkgver}.tar.gz"::"https://github.com/ros-drivers/rosserial/archive/${pkgver}.tar.gz")
-sha256sums=('e96cdeb81e1c03fb1c5ad85a740cb0a1a0836c52a24c6a5d97c975084b49d576')
+source=("${pkgname}-${pkgver}.tar.gz"::"https://github.com/ros-drivers/rosserial/archive/${pkgver}.tar.gz"
+        "fix-reconnection.patch"::"https://patch-diff.githubusercontent.com/raw/ros-drivers/rosserial/pull/445.patch"
+        "fix-python3.patch"::"https://patch-diff.githubusercontent.com/raw/ros-drivers/rosserial/pull/469.patch")
+sha256sums=('e96cdeb81e1c03fb1c5ad85a740cb0a1a0836c52a24c6a5d97c975084b49d576'
+            '810c044f7ef6aae65ed624d92fbd27313c2a8ef21c6739202721b5893129622c'
+            'e91769fba0c6037362ae0d52717b76ecf26b593c27ee06ad005499b64288738f')
+
+prepare() {
+    cd ${srcdir}/${_dir}/..
+    patch -p1 < ${srcdir}/fix-reconnection.patch
+    patch -p1 < ${srcdir}/fix-python3.patch
+}
 
 build() {
 	# Use ROS environment variables.
@@ -50,9 +60,6 @@ build() {
 		-DCATKIN_BUILD_BINARY_PACKAGE=ON \
 		-DCMAKE_INSTALL_PREFIX=/opt/ros/melodic \
 		-DPYTHON_EXECUTABLE=/usr/bin/python3 \
-		-DPYTHON_INCLUDE_DIR=/usr/include/python3.7m \
-		-DPYTHON_LIBRARY=/usr/lib/libpython3.7m.so \
-		-DPYTHON_BASENAME=.cpython-37m \
 		-DSETUPTOOLS_DEB_LAYOUT=OFF
 	make
 }
